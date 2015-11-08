@@ -17,7 +17,7 @@ public class HexagonCoordinateConverter {
     }
 
     public HexagonCubeCoordinate getCubeCoordinate(HexagonAxialCoordinate axialCoordinate) {
-        int y = - axialCoordinate.getQ() - axialCoordinate.getR();
+        int y = CoordinateUtil.solveForY(axialCoordinate.getQ(), axialCoordinate.getR());
         return new HexagonCubeCoordinate(axialCoordinate.getQ(), y, axialCoordinate.getR());
     }
 
@@ -41,17 +41,22 @@ public class HexagonCoordinateConverter {
         return new HexagonCubeCoordinate(q, solvedY, r);
     }
 
+    public Point2D getPixelCoordinate(HexagonCubeCoordinate cubeCoordinate, int size, Orientation orientation) {
+        HexagonAxialCoordinate axialCoordinate = getAxialCoordinate(cubeCoordinate);
+        return getPixelCoordinate(axialCoordinate, size, orientation);
+    }
+
     public Point2D getPixelCoordinate(HexagonAxialCoordinate axialCoordinate, int size, Orientation orientation) {
         double x;
         double y;
         switch (orientation) {
             case POINTY_TOP:
-                x = size * Math.sqrt(THREE) * (axialCoordinate.getQ() + (axialCoordinate.getR() / 2.0));
+                x = size * SQRT_THREE * (axialCoordinate.getQ() + (axialCoordinate.getR() / TWO));
                 y = size * (THREE / TWO) * axialCoordinate.getR();
                 break;
             case FLAT_TOP:
                 x = size * THREE / TWO * axialCoordinate.getQ();
-                y = size * SQRT_THREE * (axialCoordinate.getR() + axialCoordinate.getQ() / 2.0);
+                y = size * SQRT_THREE * (axialCoordinate.getR() + (axialCoordinate.getQ() / TWO));
                 break;
             default:
                 throw new IllegalArgumentException("Invalid Orientation " + orientation);
@@ -80,7 +85,7 @@ public class HexagonCoordinateConverter {
 
     public HexagonCubeCoordinate convertFromOddQ(HexagonAxialCoordinate axialCoordinate) {
         int x = axialCoordinate.getQ();
-        int z = axialCoordinate.getR() - (x - (x & 1)) / 2;
+        int z = axialCoordinate.getR() - (x - (x & 1)) / DIVISOR;
         int y = -x - z;
         return new HexagonCubeCoordinate(x, y, z);
     }
