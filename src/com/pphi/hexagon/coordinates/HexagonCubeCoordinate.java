@@ -4,9 +4,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import com.google.common.collect.ComparisonChain;
 import com.pphi.hexagon.util.CoordinateUtil;
 
-public class HexagonCubeCoordinate {
+public class HexagonCubeCoordinate implements Comparable<HexagonCubeCoordinate> {
     private int x;
     private int y;
     private int z;
@@ -85,5 +86,13 @@ public class HexagonCubeCoordinate {
         return Objects.equal(this.x, other.x)
                 && Objects.equal(this.y, other.y)
                 && Objects.equal(this.z, other.z);
+    }
+
+    @Override
+    public int compareTo(HexagonCubeCoordinate other) {
+        return ComparisonChain.start()
+                .compare(z, other.getZ())
+                .compare(x, other.getX())
+                .result();
     }
 }
