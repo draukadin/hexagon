@@ -88,7 +88,6 @@ public class HexagonCubeCoordinate implements Comparable<HexagonCubeCoordinate> 
                 && Objects.equal(this.z, other.z);
     }
 
-    @Override
     public int compareTo(HexagonCubeCoordinate other) {
         return ComparisonChain.start()
                 .compare(z, other.getZ())
