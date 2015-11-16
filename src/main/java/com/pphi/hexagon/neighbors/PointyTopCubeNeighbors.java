@@ -36,6 +36,17 @@ public enum PointyTopCubeNeighbors {
         }
         return neighbors;
     }
+
+    public static HexagonCubeCoordinate getNeighbor(HexagonCubeCoordinate start, PointyTopCubeNeighbors direction) {
+        int xStart = start.getX();
+        int yStart = start.getY();
+        int zStart = start.getZ();
+        return new HexagonCubeCoordinate((
+                xStart + direction.getX()),
+                (yStart + direction.getY()),
+                (zStart + direction.getZ()));
+    }
+
     public int getX() {
         return x;
     }
