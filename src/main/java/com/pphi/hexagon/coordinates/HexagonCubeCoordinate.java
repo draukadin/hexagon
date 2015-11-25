@@ -47,6 +47,12 @@ public class HexagonCubeCoordinate implements Comparable<HexagonCubeCoordinate> 
             roundedZ = CoordinateUtil.solveForZ((int) roundedX, (int) roundedY);
         }
 
+        int sum = (int) (roundedX + roundedY + roundedZ);
+        checkArgument(sum == 0, "The sum of the coordinates must equal zero.  Found: "
+                + " x = " + x
+                + " y = " + y
+                + " z = " + z
+                + " Sum = " + sum);
         this.x = (int) roundedX;
         this.y = (int) roundedY;
         this.z = (int) roundedZ;
