@@ -12,6 +12,10 @@ public class HexagonCubeCoordinate implements Comparable<HexagonCubeCoordinate> 
     private int y;
     private int z;
 
+    public HexagonCubeCoordinate() {
+        x = 0; y = 0; z = 0;
+    }
+
     public HexagonCubeCoordinate(int x, int y, int z) {
         int sum = x + y + z;
         checkArgument(sum == 0, "The sum of the coordinates must equal zero.  Found: "
