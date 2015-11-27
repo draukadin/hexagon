@@ -1,0 +1,20 @@
+group 'com.pphi'
+version '1.0'
+
+apply plugin: 'java'
+apply plugin: 'maven'
+
+version = "1.0"
+group = "com.pphi"
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.ejml:all:0.28'
+    compile "com.google.guava:guava:18.0"
+    testCompile group: 'org.testng', name: 'testng', version: '6.9.4'
+}
