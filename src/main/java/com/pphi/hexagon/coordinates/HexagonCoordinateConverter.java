@@ -22,13 +22,13 @@ public class HexagonCoordinateConverter {
     }
 
     public HexagonCubeCoordinate getCubeCoordinate(Point2D point, int size, Orientation orientation) {
-        int q, r;
+        double q, r;
         double x = point.getX();
         double y = point.getY();
         switch (orientation) {
             case POINTY_TOP:
-                q = (int) (Math.round(((x * (SQRT_THREE / THREE)) - (y / THREE)) / size));
-                r = (int) Math.round((y * TWO / THREE) / size);
+                q = ((x * (SQRT_THREE / THREE)) - (y / THREE)) / size;
+                r = (y * TWO / THREE) / size;
                 break;
             case FLAT_TOP:
                 q = (int) (x * TWO / THREE / size);
@@ -37,7 +37,7 @@ public class HexagonCoordinateConverter {
             default:
                 throw new IllegalArgumentException("Invalid Orientation: " + orientation);
         }
-        int solvedY = CoordinateUtil.solveForY(q, r);
+        double solvedY = CoordinateUtil.solveForY(q, r);
         return new HexagonCubeCoordinate(q, solvedY, r);
     }
 
