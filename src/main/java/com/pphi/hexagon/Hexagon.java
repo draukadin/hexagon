@@ -15,6 +15,8 @@ public class Hexagon extends Polygon {
     private int size;
     private Orientation orientation;
     private HexagonSpacing spacing;
+    private float[] vertices;
+    private short[] triangles;
 
     public Point2D getCenter() {
         return center;
@@ -36,20 +38,44 @@ public class Hexagon extends Polygon {
         return orientation;
     }
 
+    private Hexagon() {
+        //Define the vertex coordinates that create a triangle within the hexagon
+        triangles = new short[]{//        1
+                0, 1, 2,        //        /\
+                0, 2, 5,        //     2/____\ 0
+                2, 3, 5,        //      |\   |
+                3, 4, 5};       //      |  \ |
+    }                           //      |___\|
+                                //      3\  /5
+                                //        \/
+                                //         4
+
     public Hexagon(double x, double y, int radius, Orientation orientation) {
         this(new Point2D.Double(x, y), radius, orientation);
     }
 
+    public Hexagon(float x, float y, int radius, Orientation orientation) {
+        this (new Point2D.Float(x, y), radius, orientation);
+    }
+
     public Hexagon(Point2D center, int size, Orientation orientation) {
+        this();
         this.center = center;
         this.size = size;
         this.orientation = orientation;
+        vertices = new float[EDGES * 2];
+        int xIndex = 0;
+        int yIndex = 1;
         for (int i = 0; i < EDGES; i++) {
             double angle = calculateAngle(orientation, i);
             Point2D vertex = calculateVertex(center, angle, size);
             int x = (int) round(vertex.getX());
             int y = (int) round(vertex.getY());
             addPoint(x, y);
+            vertices[xIndex] = x;
+            vertices[yIndex] = y;
+            xIndex += 2;
+            yIndex += 2;
         }
         spacing = new HexagonSpacing();
     }
@@ -79,5 +105,22 @@ public class Hexagon extends Polygon {
         double x = center.getX() + radius * cos(angle);
         double y = center.getY() + radius * sin(angle);
         return new Point2D.Double(x, y);
+    }
+
+    /**
+     * The x and y coordinates in a single array.  x coordinates are in the even index locations, and the their
+     * corresponding y coordinate is in the next odd index.  This format is compatible with the libGDX library.
+     * @return the coordinates of all 6 vertices for this Hexagon
+     */
+    public float[] getVertices() {
+        return vertices;
+    }
+
+    /**
+     * The hexagon defined by four triangles
+     * @return
+     */
+    public short[] getTriangles() {
+        return triangles;
     }
 }
