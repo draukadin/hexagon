@@ -3,6 +3,7 @@ package com.pphi.hexagon;
 import static com.google.common.collect.Lists.newArrayList;
 import static java.lang.Math.PI;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.awt.geom.Point2D;
 import java.util.List;
@@ -46,6 +47,7 @@ public class HexagonTest {
         //Assert
         assertEquals(actual, expected);
     }
+
     @Test
     public void pointyTopHexagonAngleTest() {
         for (int i = 0; i < 6; i++) {
@@ -92,5 +94,20 @@ public class HexagonTest {
     @Test
     public void flatTopHeightTest() {
         assertEquals(flat.getHeight(), 17.32050807568877, EPSILON);
+    }
+
+    @Test
+    public void getVertices() {
+        float[] vertices = pointy.getVertices();
+        assertTrue(vertices.length == 12, "A hexagon must have 6 X-Coords and 6 Y-Coords");
+
+        int x = 0;
+        int y = 1;
+        for (int i = 0; i < 6; i++) {
+            assertEquals((int) vertices[x], pointy.xpoints[i]);
+            assertEquals((int) vertices[y], pointy.ypoints[i]);
+            x += 2;
+            y += 2;
+        }
     }
 }
