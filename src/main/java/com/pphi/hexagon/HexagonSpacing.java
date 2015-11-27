@@ -1,7 +1,5 @@
 package com.pphi.hexagon;
 
-import com.pphi.hexagon.Hexagon;
-
 public class HexagonSpacing {
 
     public double getWidth(Hexagon hexagon) {
