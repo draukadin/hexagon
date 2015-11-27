@@ -22,6 +22,23 @@ public class Hexagon extends Polygon {
         return center;
     }
 
+    /**
+     * lib gdx uses the lower left corner of the image to start drawing the image
+     * @return the x coordinate offset from the center by half the size of the shape
+     */
+    public float getLowerLeftX() {
+        return (float) (center.getX() - (size / 2f));
+    }
+
+    /**
+     * lib gdx uses the lower left corner of the image to start drawing the image
+     * so we need to offset from the center by half of the size
+     * @return the y coordinate offset from the center by half the size of the shape
+     */
+    public float getLowerLeftY() {
+        return (float) (center.getY() + (size / 2f));
+    }
+
     public int getSize() {
         return size;
     }
