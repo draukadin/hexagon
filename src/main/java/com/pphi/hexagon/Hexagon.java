@@ -10,13 +10,13 @@ import java.awt.geom.Point2D;
 
 public class Hexagon extends Polygon {
 
-    private static final int EDGES = 6;
+    public static final int VERTICES = 6;
     private Point2D center;
     private int size;
     private Orientation orientation;
     private HexagonSpacing spacing;
     private float[] vertices;
-    private short[] triangles;
+    private short[] indices;
 
     public Point2D getCenter() {
         return center;
@@ -56,8 +56,8 @@ public class Hexagon extends Polygon {
     }
 
     private Hexagon() {
-        //Define the vertex coordinates that create a triangle within the hexagon
-        triangles = new short[]{//        1
+        //Index the vertex coordinates that create a triangle within the hexagon
+        indices = new short[]{//          1
                 0, 1, 2,        //        /\
                 0, 2, 5,        //     2/____\ 0
                 2, 3, 5,        //      |\   |
@@ -80,10 +80,10 @@ public class Hexagon extends Polygon {
         this.center = center;
         this.size = size;
         this.orientation = orientation;
-        vertices = new float[EDGES * 2];
+        vertices = new float[VERTICES * 2];
         int xIndex = 0;
         int yIndex = 1;
-        for (int i = 0; i < EDGES; i++) {
+        for (int i = 0; i < VERTICES; i++) {
             double angle = calculateAngle(orientation, i);
             Point2D vertex = calculateVertex(center, angle, size);
             int x = (int) round(vertex.getX());
@@ -111,11 +111,11 @@ public class Hexagon extends Polygon {
     }
 
     double pointyTop(int i) {
-        return ((2 * PI) / EDGES) * (i + 0.5);
+        return ((2 * PI) / VERTICES) * (i + 0.5);
     }
 
     double flatTop(int i) {
-        return ((2 * PI) / EDGES) * (i);
+        return ((2 * PI) / VERTICES) * (i);
     }
 
     Point2D calculateVertex(Point2D center, double angle, int radius) {
@@ -137,7 +137,7 @@ public class Hexagon extends Polygon {
      * The hexagon defined by four triangles
      * @return
      */
-    public short[] getTriangles() {
-        return triangles;
+    public short[] getIndices() {
+        return indices;
     }
 }
