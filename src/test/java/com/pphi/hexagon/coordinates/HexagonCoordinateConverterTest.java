@@ -1,16 +1,17 @@
 package com.pphi.hexagon.coordinates;
 
-import static com.pphi.hexagon.Orientation.*;
+import static com.google.common.collect.Maps.newHashMap;
+import static com.pphi.hexagon.Orientation.POINTY_TOP;
 import static org.testng.Assert.assertEquals;
 
 import java.awt.geom.Point2D;
+import java.util.Map;
 
 import org.testng.annotations.Test;
 
 public class HexagonCoordinateConverterTest {
 
     private HexagonAxialCoordinate originAxial = new HexagonAxialCoordinate(0, 0);
-    private HexagonCubeCoordinate originCube = new HexagonCubeCoordinate(0, 0, 0);
     private HexagonCubeCoordinate hexagonCubeCoordinate1 = new HexagonCubeCoordinate(0 ,1, -1);
     private HexagonAxialCoordinate hexagonAxialCoordinate1 = new HexagonAxialCoordinate(0, -1);
     private HexagonCubeCoordinate hexagonCubeCoordinate2 = new HexagonCubeCoordinate(1 ,0, -1);
@@ -69,4 +70,25 @@ public class HexagonCoordinateConverterTest {
         assertEquals(hexagonCoordinateConverter.getPixelCoordinate(hexagonAxialCoordinate5, 10, POINTY_TOP), point6);
     }
 
+    @Test
+    public void convertCubeToOddR() {
+        Map<HexagonCubeCoordinate, HexagonAxialCoordinate> coordinateMap = newHashMap();
+        coordinateMap.put(new HexagonCubeCoordinate(), new HexagonAxialCoordinate(0, 0));
+        coordinateMap.put(new HexagonCubeCoordinate(1, -1, 0), new HexagonAxialCoordinate(1, 0));
+        coordinateMap.put(new HexagonCubeCoordinate(2, -2, 0), new HexagonAxialCoordinate(2, 0));
+        coordinateMap.put(new HexagonCubeCoordinate(0, -1, 1), new HexagonAxialCoordinate(0, 1));
+        coordinateMap.put(new HexagonCubeCoordinate(1, -2, 1), new HexagonAxialCoordinate(1, 1));
+        coordinateMap.put(new HexagonCubeCoordinate(-1, -1, 2), new HexagonAxialCoordinate(0, 2));
+        coordinateMap.put(new HexagonCubeCoordinate(0, -2, 2), new HexagonAxialCoordinate(1, 2));
+        coordinateMap.put(new HexagonCubeCoordinate(1, -3, 2), new HexagonAxialCoordinate(2, 2));
+        coordinateMap.put(new HexagonCubeCoordinate(-1, -2, 3), new HexagonAxialCoordinate(0, 3));
+        coordinateMap.put(new HexagonCubeCoordinate(0, -3, 3), new HexagonAxialCoordinate(1, 3));
+        coordinateMap.put(new HexagonCubeCoordinate(-2, -2, 4), new HexagonAxialCoordinate(0, 4));
+        coordinateMap.put(new HexagonCubeCoordinate(-1, -3, 4), new HexagonAxialCoordinate(1, 4));
+        coordinateMap.put(new HexagonCubeCoordinate(0, -4, 4), new HexagonAxialCoordinate(2, 4));
+        HexagonCoordinateConverter converter = new HexagonCoordinateConverter();
+        for (Map.Entry<HexagonCubeCoordinate, HexagonAxialCoordinate> entry : coordinateMap.entrySet()) {
+            assertEquals(converter.convertOddR(entry.getKey()), entry.getValue());
+        }
+    }
 }
